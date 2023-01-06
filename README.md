@@ -2,7 +2,7 @@
 
 IPFS_Enricher is a dockerized API wrapper for kubo-ipfs distributed hash table queries. IPFS_Enricher is intended to facilitate the identification of IP addresses for nodes providing specific content IDs to the Inter Planetary File System (IPFS) network. 
 
-The core use-case for IPFS_Enricher is to enrich detentions or external threat intelligence feeds that contain indicators related to IPFS by automating pivots to threat actor-controlled IPs. 
+The core use-case for IPFS_Enricher is to enrich detections or external threat intelligence feeds that contain indicators related to IPFS by automating pivots to threat actor-controlled IPs. 
 
 ## Background
 
@@ -16,24 +16,26 @@ NB: this section refers to actual malicious infrastructure.
 
 A threat actor creates a credential phishing page and pins the files from their local IPFS node, providing the page to the IPFS network. 
 
-The threat actor sends a phishing email to a target containing an IPFS web gateway link to their credential phishing content, e.g.- hxxps[:]//gateway.ipfs[.]io/ipfs/QmbLd37HqzS5Nid7yrwZVb3X28qYyVRtodF5U1gnBqTeC3 . When the target accesses the link, the IPFS web gateway retrieves the file from the threat actor's IPFS node and serves it to the target. The IPFS web gateway acts as a proxy between the threat actor and the target, meaning the threat actor has served up the phishing page without exposing IP or domain name surface area. 
+The threat actor sends a phishing email to a target containing an IPFS web gateway link to their credential phishing content, e.g.- ```hxxps[:]//gateway.ipfs[.]io/ipfs/QmbLd37HqzS5Nid7yrwZVb3X28qYyVRtodF5U1gnBqTeC3``` . When the target accesses the link, the IPFS web gateway retrieves the file from the threat actor's IPFS node and serves it to the target. 
 
-By using IPFS_Enricher, a network defender can resolve a content ID (CID) to the IP addresses serving the content to the IPFS network. By providing the CID for the phishing page (the QmbLd.* section of the URI) the defender can identify that the credential phishing page is being provided by a peer with multiaddresses pointing to 157.90.132[.]176. 
+The IPFS web gateway acts as a proxy between the threat actor and the target, meaning the threat actor has served up the phishing page without exposing IP or domain name surface area. 
 
-The threat actor's IP address would not normally be revealed through investigation of the attack chain. The threat actor may be able to launch multiple attacks without targets clustering intrusions and identifying a targeted attack or opportunities for forward detection. 
+By using IPFS_Enricher, a network defender can resolve a content ID (CID) to the IP addresses serving the content to the IPFS network. By providing the CID for the phishing page (the QmbLd.* section of the URI) the defender can identify that the credential phishing page above is being provided by a peer with multiaddresses pointing to 157.90.132[.]176. 
+
+The threat actor's IP address would not normally be revealed through investigation of the attack chain. The threat actor may be able to launch multiple attacks without targets clustering intrusions and identifying a targeted attack or identifying opportunities for pivots and forward detection. 
 
 ## Usage
 
 IPFS_Enricher returns JSON data from three API endpoints:
 
 - ```localhost/cid_to_provider_ip/{cid}```
-	- ```cid_to_provider_ip``` returns the IP addresses of nodes supplying the provided content ID (CID) to the IPFS network. The endpoint resolves a given content ID (CID) to the node IDs providing that content to the IPFS network and then resolves those nodes to multiaddresses. Multiaddresses are parsed for IPv4 strings. Finally, IPv4 strings related to IPFS web-gateways are stripped from results to reduce the incidence of false positives/low value indicators. 
+	- returns the IP addresses of nodes supplying the provided content ID (CID) to the IPFS network. The endpoint resolves a given CID to the node IDs providing that content to the IPFS network and then resolves those nodes to multiaddresses. Multiaddresses are parsed for IPv4 strings. Finally, IPv4 strings related to IPFS web-gateways are stripped from results to reduce the incidence of false positives/low value indicators. 
 - ```localhost/cid_to_provider_id/{cid}``` 
-	- ```cid_to_provider_id``` returns the provider IDs for nodes supplying the provided CID to the IPFS network. 
+	- returns the provider IDs for nodes supplying the provided CID to the IPFS network. 
 - ```localhost/peer_to_multiaddress/{peer}```
-	- ```peer_to_multiaddress``` returns the the raw multiaddresses for a given peer ID.
+	- returns the the raw multiaddresses for a given peer ID.
 
-IPFS_Enricher does not use caching and makes queries to the IPFS network as it receives requests. These requests will often hang for 5-10 seconds and should be accounted for in calling code. 
+IPFS_Enricher does not use caching and makes queries to the IPFS network as it receives requests. These requests will often hang for 5-10 seconds while the distributed hash table is queried and should be accounted for in calling code. 
 
 IPFS_Enricher currently uses the Python Flask development web server and should not be exposed to untrusted input. 
 
