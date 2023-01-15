@@ -11,7 +11,7 @@ import get_ipfs_providers
 # Function to resolve the DNS names for IPFS gateway to IP addresses.
 def resolve_gateway_ips():
     gateway_ips = []
-    with open('gateway_dns_names', 'r') as f:
+    with open('gateway_domains', 'r') as f:
         gateway_dns_names = f.read().splitlines()
         for gateway in gateway_dns_names:
             try:

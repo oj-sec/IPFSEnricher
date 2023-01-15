@@ -22,18 +22,19 @@ def cid_to_provider_ip(cid):
 	formatted_return['meta']['requestTime'] = str(datetime.datetime.now().astimezone().replace(microsecond=0).isoformat())
 	
 	try:
+		formatted_return['results'] = []
 		providers = enricher.cid_to_provider_addresses(cid)
 		formatted_return['meta']['resultCount'] = len(providers)
 		formatted_return['meta']['resultType'] = 'success'
-		formatted_return['results'] = []
 		for provider in providers.keys():
 			temp = {}
 			temp['provider'] = provider
 			temp['IPAdresses'] = providers[provider]
 			formatted_return['results'].append(temp)
-
+			return formatted_return
 	except:
 		formatted_return['meta']['resultType'] = 'error'
+		return formatted_return
 
 	return formatted_return 
 
