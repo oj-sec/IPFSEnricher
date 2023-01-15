@@ -83,7 +83,7 @@ class IPFSEnricher:
                 if multiaddresses[1]:
                     all_multiaddresses[provider] = self.clean_multiaddresses(multiaddresses[1])
         else:
-            return []
+            return {}
 
         return all_multiaddresses
 

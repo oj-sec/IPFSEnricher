@@ -31,10 +31,8 @@ def cid_to_provider_ip(cid):
 			temp['provider'] = provider
 			temp['IPAdresses'] = providers[provider]
 			formatted_return['results'].append(temp)
-		return formatted_return
 	except:
 		formatted_return['meta']['resultType'] = 'error'
-		return formatted_return
 
 	return formatted_return 
 
