@@ -49,3 +49,6 @@ System version: amd64/linux
 Golang version: go1.19.3
 
 Error: lock /home/oliver/.ipfs/repo.lock: someone else has the lock
+
+Received interrupt signal, shutting down...
+(Hit ctrl-c again to force-shutdown the daemon.)
