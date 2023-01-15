@@ -31,10 +31,11 @@ def cid_to_provider_ip(cid):
 			temp['provider'] = provider
 			temp['IPAdresses'] = providers[provider]
 			formatted_return['results'].append(temp)
-		return formatted_return 
 
 	except:
 		formatted_return['meta']['resultType'] = 'error'
+
+	return formatted_return 
 
 # Function to expose an API endpoint for resolving a CID to peer IDs.
 @app.route("/cid_to_provider_id/<string:cid>/")
