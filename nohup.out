@@ -42,3 +42,10 @@ System version: amd64/linux
 Golang version: go1.19.3
 
 Error: lock /home/oliver/.ipfs/repo.lock: someone else has the lock
+Initializing daemon...
+Kubo version: 0.17.0-4485d6b71
+Repo version: 12
+System version: amd64/linux
+Golang version: go1.19.3
+
+Error: lock /home/oliver/.ipfs/repo.lock: someone else has the lock
