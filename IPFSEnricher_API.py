@@ -29,7 +29,7 @@ def cid_to_provider_ip(cid):
 		for provider in providers.keys():
 			temp = {}
 			temp['provider'] = provider
-			temp['IPAdresses'] = providers[provider]
+			temp['IPAddresses'] = providers[provider]
 			formatted_return['results'].append(temp)
 	except:
 		formatted_return['meta']['resultType'] = 'error'
